@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
-
 import '../database/firestore.dart';
 import 'colors.dart';
-import 'table.dart';
+import 'widgets.dart';
 
 class DisplayScreen extends StatefulWidget {
   final String title;
@@ -20,6 +19,8 @@ class _DisplayScreenState extends State<DisplayScreen> {
 
   @override
   Widget build(BuildContext context) {
+  int total = 0;
+    
     //diplaying from database
     return StreamBuilder(
         stream: getCarsServcesPerDay(dateTimePikerDate),
@@ -36,6 +37,10 @@ class _DisplayScreenState extends State<DisplayScreen> {
             );
           }
           if (snapshot.hasData) {
+            //calculate total cost in one day
+            for (int i = 0; i < snapshot.data!.length; i++) {
+              total += int.parse(snapshot.data![i].carCost!);
+            }
             return Container(
               color: whiteGreen,
               child: SafeArea(
@@ -55,9 +60,10 @@ class _DisplayScreenState extends State<DisplayScreen> {
                             lastDate: DateTime(2100),
                             dateLabelText: 'Date',
                             onChanged: (value) {
-                              dateTimePikerDate = DateTime.parse(value);
                               setState(() {
-                                dateTimePikerDate;
+                              dateTimePikerDate = DateTime.parse(value);
+                                // dateTimePikerDate;
+                                // total = 0;
                               });
                             },
                           ),
@@ -118,6 +124,28 @@ class _DisplayScreenState extends State<DisplayScreen> {
                             ),
                             itemCount: snapshot.data!.length,
                           ),
+                          const Divider(
+                            color: black,
+                            height: 2,
+                            thickness: 2,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              
+                              Text(
+                                '$total ',
+                                style: const TextStyle(
+                                    fontSize: 30, fontWeight: FontWeight.bold),
+                              ),
+                             
+                              const Text(
+                                'Total',
+                                style: TextStyle(
+                                    fontSize: 30, fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          )
                         ],
                       ),
                     ),

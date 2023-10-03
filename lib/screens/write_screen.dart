@@ -5,18 +5,25 @@ import 'package:date_time_picker/date_time_picker.dart';
 import '../database/firestore.dart';
 import 'colors.dart';
 
-
 //upload data to database
 // ignore: must_be_immutable
-class WriteScreen extends StatelessWidget {
+class WriteScreen extends StatefulWidget {
   final String titleApp;
 
-  TextEditingController carTitle = TextEditingController();
-  TextEditingController carCost = TextEditingController();
-  TextEditingController carModel = TextEditingController();
-  TextEditingController ownermoileNumber = TextEditingController();
-
   WriteScreen({super.key, required this.titleApp});
+
+  @override
+  State<WriteScreen> createState() => _WriteScreenState();
+}
+
+class _WriteScreenState extends State<WriteScreen> {
+  TextEditingController carTitle = TextEditingController();
+
+  TextEditingController carCost = TextEditingController();
+
+  TextEditingController carModel = TextEditingController();
+
+  TextEditingController ownermoileNumber = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +33,7 @@ class WriteScreen extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-              titleApp,
+              widget.titleApp,
               style: const TextStyle(fontSize: 30),
             ),
             backgroundColor: yellow,
@@ -109,14 +116,17 @@ class WriteScreen extends StatelessWidget {
                     // ignore: sort_child_properties_last
                     child: const Text('Add'),
                     backgroundColor: yellow,
-                    onPressed: ()  {
-                     
+                    onPressed: () {
                       createCarServy(
                         carCost.text,
                         carTitle.text,
                         carModel.text,
                         ownermoileNumber.text,
                       ); // TODO
+
+                      setState(() {
+                        
+                      });
                     },
                   ),
                 )

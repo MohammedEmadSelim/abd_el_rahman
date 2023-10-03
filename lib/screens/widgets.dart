@@ -5,17 +5,10 @@ import '../database/firestore.dart';
 import 'colors.dart';
 
 // drawing table
-class displayTable extends StatefulWidget {
+class displayTable extends StatelessWidget {
   List<CarModel> listOfdata;
 
   displayTable(this.listOfdata, {super.key});
-
-  @override
-  State<displayTable> createState() => _displayTableState();
-}
-
-class _displayTableState extends State<displayTable> {
- 
 
   DateTime? dateTimePikerDate = DateTime.now();
 
@@ -33,4 +26,12 @@ class _displayTableState extends State<displayTable> {
       ),
     );
   }
+}
+
+Widget countTotal(List<CarModel> list){
+  int x = 0;
+  for(var index in list){
+    x += index!.carCost as int ;
+  }
+  return x as Widget;
 }

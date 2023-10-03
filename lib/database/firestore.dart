@@ -40,12 +40,12 @@ createCarServy(
   });
 }
 
-Stream<List<CarModel>> getCarsServcesPerDay() {
+Stream<List<CarModel>> getCarsServcesPerDay(DateTime date) {
   var ref2 = ref.orderBy('date').where(
         'date',
-        isEqualTo: DateTime.now(),
-      );
-  // .where('date', isGreaterThanOrEqualTo: DateTime.now());
+        isGreaterThanOrEqualTo: DateTime(date.year,date.month,date.day,0,0,0),
+      )
+  .where('date', isLessThanOrEqualTo: DateTime(date.year,date.month,date.day,24,0,0));
   // .where('date', whereIn: [DateTime.now()]);
   var data = ref2.snapshots().map(
         (event) => event.docs

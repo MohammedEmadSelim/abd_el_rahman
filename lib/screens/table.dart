@@ -15,7 +15,7 @@ class displayTable extends StatefulWidget {
 }
 
 class _displayTableState extends State<displayTable> {
-  TextStyle? tableFont = const TextStyle(fontSize: 30);
+ 
 
   DateTime? dateTimePikerDate = DateTime.now();
 
@@ -28,80 +28,7 @@ class _displayTableState extends State<displayTable> {
       child: SafeArea(
         child: Scaffold(
           backgroundColor: whiteGreen,
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                DateTimePicker(
-                  initialValue: dateTimePikerDate.toString(),
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(2100),
-                  dateLabelText: 'Date',
-                  onChanged: (value) {
-                    dateTimePikerDate = DateTime.parse(value);
-                    setState(() {
-                      dateTimePikerDate;
-                    });
-                  },
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all()),
-                  // this row for making the display arrengment
-                  child: const Row(
-                    children: [
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        'Cost',
-                        style: TextStyle(fontSize: 30),
-                      ),
-                      SizedBox(
-                        height: 30,
-                        width: 100,
-                      ),
-                      Text(
-                        'Car Title',
-                        style: TextStyle(fontSize: 30),
-                      ),
-                    ],
-                  ),
-                ),
-                //this list to display the content from Firebase
-                ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) => Column(
-                    children: [
-                      Row(
-                        children: [
-                          const SizedBox(width: 30),
-                          Text(
-                            ''
-                            '${widget.listOfdata[index].carCost}',
-                            style: tableFont,
-                          ),
-                          const SizedBox(width: 130),
-                          Text(
-                            '${widget.listOfdata[index].carTitle}',
-                            style: tableFont,
-                          ),
-                        ],
-                      ),
-                      const Divider(
-                        color: black,
-                        height: 2,
-                        thickness: 2,
-                      )
-                    ],
-                  ),
-                  itemCount: widget.listOfdata.length,
-                ),
-              ],
-            ),
-          ),
+          
         ),
       ),
     );

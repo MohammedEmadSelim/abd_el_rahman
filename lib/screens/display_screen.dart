@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import '../database/firestore.dart';
 import 'colors.dart';
-import 'widgets.dart';
+import 'navBar.dart';
 
 class DisplayScreen extends StatefulWidget {
   final String title;
@@ -16,11 +15,16 @@ class DisplayScreen extends StatefulWidget {
 class _DisplayScreenState extends State<DisplayScreen> {
   DateTime dateTimePikerDate = DateTime.now();
   TextStyle? tableFont = const TextStyle(fontSize: 30);
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-  int total = 0;
-    
+    int total = 0;
+    int fixerTotal = 0;
+
     //diplaying from database
     return StreamBuilder(
         stream: getCarsServcesPerDay(dateTimePikerDate),
@@ -40,6 +44,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
             //calculate total cost in one day
             for (int i = 0; i < snapshot.data!.length; i++) {
               total += int.parse(snapshot.data![i].carCost!);
+              fixerTotal += (snapshot.data![i].fixerCost ?? 0).toInt();
             }
             return Container(
               color: whiteGreen,
@@ -61,7 +66,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
                             dateLabelText: 'Date',
                             onChanged: (value) {
                               setState(() {
-                              dateTimePikerDate = DateTime.parse(value);
+                                dateTimePikerDate = DateTime.parse(value);
                                 // dateTimePikerDate;
                                 // total = 0;
                               });
@@ -108,10 +113,22 @@ class _DisplayScreenState extends State<DisplayScreen> {
                                       '${snapshot.data![index].carCost}',
                                       style: tableFont,
                                     ),
-                                    const SizedBox(width: 130),
-                                    Text(
-                                      '${snapshot.data![index].carTitle}',
-                                      style: tableFont,
+                                    const SizedBox(width: 95),
+                                    Container(
+                                      width: 170,
+                                      child: Column(
+                                        // mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            '${snapshot.data![index].carTitle}',
+                                            style: tableFont,
+                                          ),
+                                          Text(
+                                              '${snapshot.data![index].carOwnerName}')
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -132,15 +149,28 @@ class _DisplayScreenState extends State<DisplayScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              
                               Text(
                                 '$total ',
                                 style: const TextStyle(
                                     fontSize: 30, fontWeight: FontWeight.bold),
                               ),
-                             
                               const Text(
                                 'Total',
+                                style: TextStyle(
+                                    fontSize: 30, fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '$fixerTotal ',
+                                style: const TextStyle(
+                                    fontSize: 30, fontWeight: FontWeight.bold),
+                              ),
+                              const Text(
+                                'Fixer Total',
                                 style: TextStyle(
                                     fontSize: 30, fontWeight: FontWeight.bold),
                               )
@@ -149,6 +179,9 @@ class _DisplayScreenState extends State<DisplayScreen> {
                         ],
                       ),
                     ),
+                  ),
+                  bottomNavigationBar: NavBar(
+                    selectedIndex: 0,
                   ),
                 ),
               ),

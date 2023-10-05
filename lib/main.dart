@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor:yellow),
         useMaterial3: true,
       ),
-      home: DisplayScreen(title: 'Display',)
-      // home: WriteScreen(titleApp: 'input '),
+      // home: DisplayScreen(title: 'Display',)
+      home: WriteScreen(titleApp: 'input '),
     );
   }
 }

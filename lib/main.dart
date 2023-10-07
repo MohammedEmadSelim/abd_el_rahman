@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'screens/colors.dart';
 import 'screens/display_screen.dart';
+import 'screens/home_screen.dart';
 import 'screens/write_screen.dart';
 
 void main() async {
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // home: DisplayScreen(title: 'Display',)
-      home: WriteScreen(titleApp: 'input '),
+      home: HomeScreen(),
     );
   }
 }

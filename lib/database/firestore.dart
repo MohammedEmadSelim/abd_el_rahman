@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
+List english = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+List arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
 
 var ref = FirebaseFirestore.instance.collection('cars');
 
@@ -14,19 +15,18 @@ class CarModel {
   String? carOwnerPhone;
   String? describtion;
 
-  CarModel({
-    this.carTitle,
-    this.carCost,
-    this.id,
-    this.carDatetime,
-    this.fixerCost,
-    this.carOwnerName,
-    this.carOwnerPhone,
-    this.describtion
-  });
+  CarModel(
+      {this.carTitle,
+      this.carCost,
+      this.id,
+      this.carDatetime,
+      this.fixerCost,
+      this.carOwnerName,
+      this.carOwnerPhone,
+      this.describtion});
 
   CarModel fromMap(Map<String, dynamic> mapData) {
-    return CarModel(
+    var conrainer = CarModel(
       carTitle: mapData['name'],
       carCost: mapData['carCost'],
       // carDatetime: mapData['date'],
@@ -35,6 +35,16 @@ class CarModel {
       carOwnerPhone: mapData['ownerPhone'],
       describtion: mapData['describtion'],
     );
+    for (int i = 0; i < conrainer.carCost!.length; i++) {
+      for (int j = 0; j < english.length; j++) {
+        if(conrainer.carCost![i]==arabic[j]){
+          // String hEllo = hello.substring(0, 1) + "E" + hello.substring(2);
+          conrainer.carCost= conrainer.carCost!.substring(0,i-1)+english[j]+conrainer.carCost!.substring(i);
+        }
+      }
+    }
+    // if(conrainer.carCost)
+    return conrainer;
   }
 }
 
@@ -53,7 +63,7 @@ createCarServy(
   //rearrange arguments which are going to firestore
   fireStoreRef.doc().set({
     'id': 1,
-    'carCost': carCost,
+  'carCost': carCost,
     'fixerCost': int.parse(fixerCost),
     'name': carTitle,
     'model': carModle,
